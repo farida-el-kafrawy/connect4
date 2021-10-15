@@ -1,0 +1,68 @@
+#grid{
+    display: flexbox;
+    width: 390px;
+    margin: 0px auto;
+    margin-top: 10px;
+    border:10px rgb(38, 38, 112);
+    background-color: blue;
+}
+
+.column { 
+    background-color: white;
+    width: 30px;
+    height: 30px;
+    margin: 8px;
+    border: 5px rgb(38, 38, 112) solid;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 80px;
+}
+
+.row {
+    width: 1000px;
+    margin: 0px auto;
+    display: flex;
+    justify-content: left;
+}
+
+.marker {
+    width: 80px;
+    height: 80px;
+}
+
+#winner-display {
+    display: none;
+    background-color: red;
+}
+
+body {
+    text-align: center;
+    background: ivory;
+}
+
+#reset-button{
+    margin-top: 10px;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.red{
+    background-color: red;
+}
+
+.btn-group button {
+    display: flex;
+    align-items: center;
+    background-color: #04AA6D; /* Green background */
+    border: 1px solid green; /* Green border */
+    color: white; /* White text */
+    padding: 8px 10px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    float: left; /* Float the buttons side by side */
+    margin: 2px;
+  }
+  
