@@ -10,32 +10,47 @@ let board = [
 let turn = 1
 let win = ""
 
-var reply_click = function()
-{
-    console.log("Button "+this.id+" clicked");
-}
-document.getElementById('0').onclick = reply_click;
-document.getElementById('1').onclick = reply_click;
-document.getElementById('2').onclick = reply_click;
-document.getElementById('3').onclick = reply_click;
-document.getElementById('4').onclick = reply_click;
-document.getElementById('5').onclick = reply_click;
-document.getElementById('6').onclick = reply_click;
-
-// Take the row and column number between 0 and 2 
-// (inclusive) and update the game state.
-function takeTurn(row, column) {
-    console.log("takeTurn was called with row: " + row + ", column:" + column);
-    if (board[row][column] === null) {
-        if (turn % 2 === 0) {
-            board[row][column] = "yellow"
+function takeTurn(event) {
+    b_column = this.id
+    console.log("Button "+ b_column + " clicked");
+    for (x = 5; x > -1; x--){
+        if (board[x][b_column] === null){
+            if (turn % 2 === 0) {
+            board[x][b_column] = "yellow"
+            break
         }
         else {
-            board[row][column] = "red"
+            board[x][b_column] = "red"
+            break
         }
-        turn += 1
     }
+    }
+    turn += 1
+    console.log(board)
+    drawBoard(board)
 }
+
+const button0 = document.getElementById("0")
+button0.addEventListener("click"
+, takeTurn)
+const button1 = document.getElementById("1")
+button1.addEventListener("click"
+, takeTurn)
+const button2 = document.getElementById("2")
+button2.addEventListener("click"
+, takeTurn)
+const button3 = document.getElementById("3")
+button3.addEventListener("click"
+, takeTurn)
+const button4 = document.getElementById("4")
+button4.addEventListener("click"
+, takeTurn)
+const button5 = document.getElementById("5")
+button5.addEventListener("click"
+, takeTurn)
+const button6 = document.getElementById("6")
+button6.addEventListener("click"
+, takeTurn)
 
 // Return either "noughts", "crosses" or "nobody" if the game is over.
 // Otherwise return null to continue playing.
@@ -87,9 +102,8 @@ function checkWinner() {
 // Set the game state back to its original state to play another game.
 function resetGame() {
     console.log("resetGame was called");
-    // board.fill(null);
-    for (x = 0; x <= 6; x++) {
-        for (y = 0; y <= 6; y++){
+    for (x = 0; x < 6; x++) {
+        for (y = 0; y < 7; y++){
             board[x][y]= null
         }
     }

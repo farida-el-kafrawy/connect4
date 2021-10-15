@@ -14,7 +14,7 @@ for (f of functions) {
 function clearBoard() {
     for (let rowIndex = 0; rowIndex < 6; rowIndex++) {
         for (let columnIndex = 0; columnIndex < 7; columnIndex++) {
-            document.getElementById(`row-${rowIndex}-column-${columnIndex}`).innerHTML = ""
+            document.getElementById(`row-${rowIndex}-column-${columnIndex}`).className = "column"
         }
     }
 }
@@ -27,8 +27,16 @@ function drawBoard(board) {
             if (!board[rowIndex][columnIndex]) {
                 continue;
             }
-            const cellText = board[rowIndex][columnIndex] === "red" ? "red" + " " + "column" : "yellow" + " " + "column";
-            document.getElementById(`row-${rowIndex}-column-${columnIndex}`).className = cellText;
+            if (board[rowIndex][columnIndex] === "red") {
+            document.getElementById(`row-${rowIndex}-column-${columnIndex}`).classList.add("red");
+            }
+            else if (board[rowIndex][columnIndex] === "yellow") {
+            document.getElementById(`row-${rowIndex}-column-${columnIndex}`).classList.add("yellow");
+            }
+            else {
+            document.getElementById(`row-${rowIndex}-column-${columnIndex}`).classList.add("nothing");
+            }
+        console.log(document.getElementById(`row-${rowIndex}-column-${columnIndex}`).classList)
         }
     }
 }
@@ -47,7 +55,7 @@ function positionClick(rowIndex, columnIndex, event) {
     drawBoard(board);
     const winner = checkWinner();
     if (winner) {
-        if (typeof winner !== "string" || !["noughts", "crosses", "nobody"].includes(winner)) {
+        if (typeof winner !== "string" || !["red", "yellow", "nobody"].includes(winner)) {
             throw "Expecting 'checkWinner' to return null or one of the strings 'noughts', 'crosses' or 'nobody'. Actually received: " + winner;
         }
         const winnerName = document.getElementById("winner-name");

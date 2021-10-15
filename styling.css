@@ -20,6 +20,10 @@
     font-size: 80px;
 }
 
+#row-0-column-0 .column{
+    background-color: yellow;
+}
+
 .row {
     width: 1000px;
     margin: 0px auto;
@@ -52,6 +56,10 @@ body {
 
 .red{
     background-color: red;
+}
+
+.nothing{
+    background-color: black;
 }
 
 .btn-group button {
