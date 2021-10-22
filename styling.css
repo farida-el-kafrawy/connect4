@@ -3,12 +3,12 @@
     width: 390px;
     margin: 0px auto;
     margin-top: 10px;
-    border:10px rgb(38, 38, 112);
-    background-color: blue;
+    /* border:30px rgb(38, 38, 112); */
+    background-color: lightseagreen;
 }
 
 .column { 
-    background-color: white;
+    background-color: lightslategray;
     width: 30px;
     height: 30px;
     margin: 8px;
@@ -18,10 +18,6 @@
     justify-content: center;
     align-items: center;
     font-size: 80px;
-}
-
-#row-0-column-0 .column{
-    background-color: yellow;
 }
 
 .row {
@@ -43,11 +39,16 @@
 
 body {
     text-align: center;
-    background: ivory;
+    background: lightsteelblue;
 }
 
+body h1{
+    color: navy;
+}
 #reset-button{
     margin-top: 10px;
+    color: navy;
+    background-color: lightseagreen;
 }
 
 .yellow {
@@ -65,9 +66,9 @@ body {
 .btn-group button {
     display: flex;
     align-items: center;
-    background-color: #04AA6D; /* Green background */
-    border: 1px solid green; /* Green border */
-    color: white; /* White text */
+    background-color: lightsalmon; /* Green background */
+    border: 1px solid lightsalmon; /* Green border */
+    color: darkblue; /* White text */
     padding: 8px 10px; /* Some padding */
     cursor: pointer; /* Pointer/hand icon */
     float: left; /* Float the buttons side by side */
