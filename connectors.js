@@ -36,7 +36,7 @@ function drawBoard(board) {
             else {
             document.getElementById(`row-${rowIndex}-column-${columnIndex}`).classList.add("nothing");
             }
-        console.log(document.getElementById(`row-${rowIndex}-column-${columnIndex}`).classList)
+        // console.log(document.getElementById(`row-${rowIndex}-column-${columnIndex}`).classList)
         }
     }
 }
