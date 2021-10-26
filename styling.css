@@ -73,5 +73,11 @@ body h1{
     cursor: pointer; /* Pointer/hand icon */
     float: left; /* Float the buttons side by side */
     margin: 2px;
+    margin-bottom: 50px;
   }
   
+  #select-counters{
+      width: 50px;
+      background-color: black;
+      margin-top: 40px;
+  }
