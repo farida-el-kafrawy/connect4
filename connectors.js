@@ -28,24 +28,24 @@ function drawBoard(board) {
                 continue;
             }
             if (board[rowIndex][columnIndex] === "red") {
-                for (x = 0; x < rowIndex; x++){
-                    document.getElementById(`row-${x}-column-${columnIndex}`).classList.add("red");
-                    setTimeout(function(){
-                        document.getElementById(`row-${x-1}-column-${columnIndex}`).classList.add("red");
-                   }, 1000);
-                    setTimeout(function(){
-                        document.getElementById(`row-${x-1}-column-${columnIndex}`).classList.remove("red");
-                   }, 1000);
-                }
+            //     for (x = 0; x < rowIndex; x++){
+            //         document.getElementById(`row-${x}-column-${columnIndex}`).classList.add("red");
+            //         setTimeout(function(){
+            //             document.getElementById(`row-${x}-column-${columnIndex}`).classList.add("red");
+            //        }, 1000);
+            //         setTimeout(function(){
+            //             document.getElementById(`row-${x-1}-column-${columnIndex}`).classList.remove("red");
+            //        }, 1000);
+            //     }
             document.getElementById(`row-${rowIndex}-column-${columnIndex}`).classList.add("red");
             }
             else if (board[rowIndex][columnIndex] === "yellow") {
-                for (x = 0; x < rowIndex; x++){
-                    document.getElementById(`row-${x}-column-${columnIndex}`).classList.add("yellow");
-                    setTimeout(function(){
-                        document.getElementById(`row-${x-1}-column-${columnIndex}`).classList.remove("yellow");
-                   }, 1000);
-                }
+                // for (x = 0; x < rowIndex; x++){
+                //     document.getElementById(`row-${x}-column-${columnIndex}`).classList.add("yellow");
+                //     setTimeout(function(){
+                //         document.getElementById(`row-${x-1}-column-${columnIndex}`).classList.remove("yellow");
+                //    }, 1000);
+                // }
             document.getElementById(`row-${rowIndex}-column-${columnIndex}`).classList.add("yellow");
             }
             else {

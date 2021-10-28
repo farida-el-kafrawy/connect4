@@ -1,4 +1,8 @@
+const { response } = require("express")
+
 // Make your changes to store and update game state in this file
+let turn = 1
+let win = ""
 let board = [
     [null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null],
@@ -7,26 +11,31 @@ let board = [
     [null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null]
 ]
-let turn = 1
-let win = ""
 
 function takeTurn(event) {
+    getBoard()
     b_column = this.id
     console.log("Button " + b_column + " clicked");
     for (x = 5; x > -1; x--) {
         if (board[x][b_column] === null) {
             if (turn % 2 === 0) {
-                board[x][b_column] = "yellow"
+                // board[x][b_column] = "yellow"
+                const fill_with_yellow = new Request('http://localhost:3000/board/yellow/' + x + "/" + b_column, { method: 'POST' });
+                fetch(fill_with_yellow)
+                console.log(x + "," + b_column + " is now yellow")
                 break
             }
             else {
-                board[x][b_column] = "red"
+                // board[x][b_column] = "red"
+                const fill_with_red = new Request('http://localhost:3000/board/red/' + x + "/" + b_column, { method: 'POST' });
+                fetch(fill_with_red)
+                console.log(x + "," + b_column + " is now red")
                 break
             }
         }
     }
     turn += 1
-    console.log(board)
+    getBoard()
     drawBoard(board)
     checkWinner()
 }
@@ -138,6 +147,8 @@ function winningColour() {
 // Set the game state back to its original state to play another game.
 function resetGame() {
     console.log("resetGame was called");
+    const reset_game = new Request('http://localhost:3000/board/reset', { method: 'POST' });
+    fetch(reset_game)
     for (x = 0; x < 6; x++) {
         for (y = 0; y < 7; y++) {
             board[x][y] = null;
@@ -159,7 +170,8 @@ function resetGame() {
 // each position. Put a null in a position that hasn't been played yet.
 function getBoard() {
     console.log("getBoard was called");
-    return board;
+    const get_board = new Request('http://localhost:3000/board/', { method: 'GET' });
+    fetch(get_board)
 }
 
 if (typeof exports === 'object') {
