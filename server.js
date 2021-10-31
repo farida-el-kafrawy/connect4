@@ -68,14 +68,11 @@ app.get('/board', (req, res) => {
 
 // Reset board
 app.post('/board/reset', (req, res) => {
-    let board = [
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null]
-    ]
+    for (x = 0; x < 6; x++) {
+        for (y = 0; y < 7; y++) {
+            board[x][y] = null;
+        }
+    }
     // console.log(board)
     res.send(board)
         
