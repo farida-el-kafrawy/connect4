@@ -1,42 +1,28 @@
-const { response } = require("express")
-
 // Make your changes to store and update game state in this file
 let turn = 1
 let win = ""
-let board = [
-    [null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null]
-]
 
-function takeTurn(event) {
-    getBoard()
+async function takeTurn(event) {
+    // getBoard()
     b_column = this.id
     console.log("Button " + b_column + " clicked");
-    for (x = 5; x > -1; x--) {
-        if (board[x][b_column] === null) {
-            if (turn % 2 === 0) {
-                // board[x][b_column] = "yellow"
-                const fill_with_yellow = new Request('http://localhost:3000/board/yellow/' + x + "/" + b_column, { method: 'POST' });
-                fetch(fill_with_yellow)
-                console.log(x + "," + b_column + " is now yellow")
-                break
-            }
-            else {
-                // board[x][b_column] = "red"
-                const fill_with_red = new Request('http://localhost:3000/board/red/' + x + "/" + b_column, { method: 'POST' });
-                fetch(fill_with_red)
-                console.log(x + "," + b_column + " is now red")
-                break
-            }
-        }
+    // need to change how I check if a position is filled or not
+    var first_empty = await checkifpositionempty(b_column)
+    console.log(first_empty.result)
+    if (turn % 2 === 0) {
+        const fill_with_yellow = new Request('http://localhost:3000/board/yellow/' + first_empty + "/" + b_column, { method: 'POST' });
+        fetch(fill_with_yellow)
+        console.log(first_empty + "," + b_column + " is now yellow")
+    }
+    if (turn % 2 !== 0) {
+        const fill_with_red = new Request('http://localhost:3000/board/red/' + first_empty + "/" + b_column, { method: 'POST' });
+        fetch(fill_with_red)
+        console.log(first_empty + "," + b_column + " is now red")
     }
     turn += 1
-    getBoard()
-    drawBoard(board)
+    // need to draw board differently
+    drawBoard(await getBoard())
+    // need to check winner differently
     checkWinner()
 }
 
@@ -67,12 +53,13 @@ reset.addEventListener("click"
 
 // Return either "noughts", "crosses" or "nobody" if the game is over.
 // Otherwise return null to continue playing.
-function checkWinner() {
+async function checkWinner() {
     console.log("checkWinner was called");
+    var api_board = await getBoard()
     for (x = 0; x < 3; x++) {
         for (y = 0; y < 7; y++) {
             // vertical wins
-            if (board[x][y] === board[x + 1][y] && board[x + 1][y] === board[x + 2][y] && board[x + 2][y] === board[x + 3][y] && board[x][y] != null) {
+            if (api_board[x][y] === api_board[x + 1][y] && api_board[x + 1][y] === api_board[x + 2][y] && api_board[x + 2][y] === api_board[x + 3][y] && api_board[x][y] != null) {
                 winningColour()
             }
         }
@@ -80,7 +67,7 @@ function checkWinner() {
     for (x = 0; x < 6; x++) {
         for (y = 0; y < 4; y++) {
             // horizontal wins
-            if (board[x][y] === board[x][y + 1] && board[x][y + 1] === board[x][y + 2] && board[x][y + 2] === board[x][y + 3] && board[x][y] != null) {
+            if (api_board[x][y] === api_board[x][y + 1] && api_board[x][y + 1] === api_board[x][y + 2] && api_board[x][y + 2] === api_board[x][y + 3] && api_board[x][y] != null) {
                 winningColour()
             }
         }
@@ -88,7 +75,7 @@ function checkWinner() {
     for (x = 0; x < 3; x++) {
         for (y = 0; y < 4; y++) {
             // diagonal
-            if (board[x][y] === board[x + 1][y + 1] && board[x + 2][y + 2] === board[x + 1][y + 1] && board[x + 2][y + 2] === board[x + 3][y + 3] && board[x][y] != null) {
+            if (api_board[x][y] === api_board[x + 1][y + 1] && api_board[x + 2][y + 2] === api_board[x + 1][y + 1] && api_board[x + 2][y + 2] === api_board[x + 3][y + 3] && api_board[x][y] != null) {
                 winningColour()
             }
         }
@@ -96,7 +83,7 @@ function checkWinner() {
     // second diagonal
     for (x = 3; x < 6; x++) {
         for (y = 0; y < 4; y++) {
-            if (board[x][y] === board[x - 1][y + 1] && board[x - 2][y + 2] === board[x][y] && board[x - 2][y + 2] === board[x - 3][y + 3] && board[x][y] != null) {
+            if (api_board[x][y] === api_board[x - 1][y + 1] && api_board[x - 2][y + 2] === api_board[x][y] && api_board[x - 2][y + 2] === api_board[x - 3][y + 3] && api_board[x][y] != null) {
                 winningColour()
             }
         }
@@ -145,18 +132,13 @@ function winningColour() {
 }
 
 // Set the game state back to its original state to play another game.
-function resetGame() {
+async function resetGame() {
     console.log("resetGame was called");
     const reset_game = new Request('http://localhost:3000/board/reset', { method: 'POST' });
     fetch(reset_game)
-    for (x = 0; x < 6; x++) {
-        for (y = 0; y < 7; y++) {
-            board[x][y] = null;
-        }
-    }
     turn = 1
-    console.log(board)
-    drawBoard(board)
+    var api_board = await getBoard()
+    drawBoard(api_board)
     document.getElementById("0").disabled = false;
     document.getElementById("1").disabled = false;
     document.getElementById("2").disabled = false;
@@ -168,10 +150,35 @@ function resetGame() {
 
 // Return the current board state with either a "nought" or a "cross" in
 // each position. Put a null in a position that hasn't been played yet.
-function getBoard() {
+async function getBoard() {
     console.log("getBoard was called");
-    const get_board = new Request('http://localhost:3000/board/', { method: 'GET' });
-    fetch(get_board)
+    const response = await fetch('http://localhost:3000/board/', { method: 'GET' })
+    let api_board = await response.json();
+    console.log("board is");
+    // console.log(api_board)
+    return api_board
+}
+
+position_empty = ""
+
+async function checkifpositionempty(y) {
+    var api_board = await getBoard()
+    console.log(api_board)
+    for (x = 5; x > -1; x--) {
+        if (api_board[x][y] === null) {
+            console.log(x + "," + y + " is empty")
+            console.log(api_board[x][y])
+            position_empty = "yes"
+            first_empty = x
+            break
+        } else {
+            console.log(x + "," + y + " is not empty")
+            console.log(api_board[x][y])
+            position_empty = "no"
+        }
+    }
+    console.log(first_empty)
+    return first_empty
 }
 
 if (typeof exports === 'object') {

@@ -57,7 +57,7 @@ app.post('/board/:colour/:x/:y', (req, res) => {
         board[req.params.x][req.params.y] = "yellow"
     }
     res.send(board)
-    console.log(board)
+    // console.log(board)
 });
 
 // Get board
@@ -68,15 +68,18 @@ app.get('/board', (req, res) => {
 
 // Reset board
 app.post('/board/reset', (req, res) => {
-    for (x = 0; x < 6; x++) {
-        for (y = 0; y < 7; y++) {
-            board[x][y] = null;
-        }
-    }
-    console.log(board)
+    let board = [
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null]
+    ]
+    // console.log(board)
     res.send(board)
         
 });
 
-app.listen(3000,
+app.listen(3000, 
     console.log)
