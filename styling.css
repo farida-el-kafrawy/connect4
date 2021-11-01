@@ -76,6 +76,10 @@ body h1{
     margin-bottom: 0px;
   }
   
+.btn-group button:disabled{
+    background-color:gold;
+    }
+
   #select-counters{
       width: 50px;
       background-color: black;

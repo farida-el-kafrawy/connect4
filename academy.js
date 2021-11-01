@@ -1,12 +1,13 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 // Make your changes to store and update game state in this file
 let turn = 1
 let win = ""
 
 async function takeTurn(event) {
-    // getBoard()
+    drawBoard(await getBoard())
     b_column = this.id
     console.log("Button " + b_column + " clicked");
-    // need to change how I check if a position is filled or not
     var first_empty = await checkifpositionempty(b_column)
     console.log(first_empty.result)
     if (turn % 2 === 0) {
@@ -20,9 +21,7 @@ async function takeTurn(event) {
         console.log(first_empty + "," + b_column + " is now red")
     }
     turn += 1
-    // need to draw board differently
     drawBoard(await getBoard())
-    // need to check winner differently
     checkWinner()
 }
 
@@ -88,7 +87,7 @@ async function checkWinner() {
             }
         }
     }
-    if (turn === 44) {
+    if (turn > 43) {
         console.log("Nobody won!")
         return "nobody"
     }
@@ -164,21 +163,20 @@ position_empty = ""
 async function checkifpositionempty(y) {
     var api_board = await getBoard()
     console.log(api_board)
+    if (api_board[0][y] !== null) {
+        console.log("column is full")
+        document.getElementById(y).disabled = true;
+    }
     for (x = 5; x > -1; x--) {
         if (api_board[x][y] === null) {
             console.log(x + "," + y + " is empty")
             console.log(api_board[x][y])
             position_empty = "yes"
             first_empty = x
-            break
-        } else {
-            console.log(x + "," + y + " is not empty")
-            console.log(api_board[x][y])
-            position_empty = "no"
+            console.log(first_empty)
+            return first_empty
         }
     }
-    console.log(first_empty)
-    return first_empty
 }
 
 if (typeof exports === 'object') {

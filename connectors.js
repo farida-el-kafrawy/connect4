@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 // This file contains helper code beyond the first week "Intro to JavaScript" course content.
 // You should not have to make any changes in this file to get your game working.
 
@@ -20,7 +22,7 @@ function clearBoard() {
 }
 
 // Populate the grid with images based on the board state.
-function drawBoard(board) {
+async function drawBoard(board) {
     clearBoard();
     for (let rowIndex = 0; rowIndex < 6; rowIndex++) {
         for (let columnIndex = 0; columnIndex < 7; columnIndex++) {
@@ -28,30 +30,14 @@ function drawBoard(board) {
                 continue;
             }
             if (board[rowIndex][columnIndex] === "red") {
-            //     for (x = 0; x < rowIndex; x++){
-            //         document.getElementById(`row-${x}-column-${columnIndex}`).classList.add("red");
-            //         setTimeout(function(){
-            //             document.getElementById(`row-${x}-column-${columnIndex}`).classList.add("red");
-            //        }, 1000);
-            //         setTimeout(function(){
-            //             document.getElementById(`row-${x-1}-column-${columnIndex}`).classList.remove("red");
-            //        }, 1000);
-            //     }
-            document.getElementById(`row-${rowIndex}-column-${columnIndex}`).classList.add("red");
+                document.getElementById(`row-${rowIndex}-column-${columnIndex}`).classList.add("red");
             }
             else if (board[rowIndex][columnIndex] === "yellow") {
-                // for (x = 0; x < rowIndex; x++){
-                //     document.getElementById(`row-${x}-column-${columnIndex}`).classList.add("yellow");
-                //     setTimeout(function(){
-                //         document.getElementById(`row-${x-1}-column-${columnIndex}`).classList.remove("yellow");
-                //    }, 1000);
-                // }
-            document.getElementById(`row-${rowIndex}-column-${columnIndex}`).classList.add("yellow");
+                document.getElementById(`row-${rowIndex}-column-${columnIndex}`).classList.add("yellow");
             }
             else {
-            document.getElementById(`row-${rowIndex}-column-${columnIndex}`).classList.add("nothing");
+                document.getElementById(`row-${rowIndex}-column-${columnIndex}`).classList.add("nothing");
             }
-        // console.log(document.getElementById(`row-${rowIndex}-column-${columnIndex}`).classList)
         }
     }
 }
