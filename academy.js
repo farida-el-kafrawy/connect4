@@ -1,15 +1,28 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
+
 // Make your changes to store and update game state in this file
 let turn = 1
 let win = ""
 
-async function takeTurn(event) {
+async function runGame(event) {
     drawBoard(await getBoard())
     b_column = this.id
-    console.log("Button " + b_column + " clicked");
-    var first_empty = await checkifpositionempty(b_column)
-    console.log(first_empty.result)
+    console.log("Button " + b_column + " clicked")
+    if (b_column === "reset-button") {
+        resetGame()
+    }
+    else {
+        var first_empty = await checkifpositionempty(b_column)
+        console.log(first_empty.result)
+        takeTurn(turn, first_empty, b_column)
+        turn += 1
+        drawBoard(await getBoard())
+        checkWinner(await getBoard())
+    }
+}
+
+async function takeTurn(turn, first_empty, b_column) {
     if (turn % 2 === 0) {
         const fill_with_yellow = new Request('http://localhost:3000/board/yellow/' + first_empty + "/" + b_column, { method: 'POST' });
         fetch(fill_with_yellow)
@@ -21,45 +34,43 @@ async function takeTurn(event) {
         console.log(first_empty + "," + b_column + " is now red")
     }
     turn += 1
-    drawBoard(await getBoard())
-    checkWinner()
 }
+
 
 const button0 = document.getElementById("0")
 button0.addEventListener("click"
-    , takeTurn)
+    , runGame)
 const button1 = document.getElementById("1")
 button1.addEventListener("click"
-    , takeTurn)
+    , runGame)
 const button2 = document.getElementById("2")
 button2.addEventListener("click"
-    , takeTurn)
+    , runGame)
 const button3 = document.getElementById("3")
 button3.addEventListener("click"
-    , takeTurn)
+    , runGame)
 const button4 = document.getElementById("4")
 button4.addEventListener("click"
-    , takeTurn)
+    , runGame)
 const button5 = document.getElementById("5")
 button5.addEventListener("click"
-    , takeTurn)
+    , runGame)
 const button6 = document.getElementById("6")
 button6.addEventListener("click"
-    , takeTurn)
+    , runGame)
 const reset = document.getElementById("reset-button")
 reset.addEventListener("click"
-    , resetGame)
+    , runGame)
 
 // Return either "noughts", "crosses" or "nobody" if the game is over.
 // Otherwise return null to continue playing.
-async function checkWinner() {
+async function checkWinner(api_board) {
     console.log("checkWinner was called");
-    var api_board = await getBoard()
     for (x = 0; x < 3; x++) {
         for (y = 0; y < 7; y++) {
             // vertical wins
             if (api_board[x][y] === api_board[x + 1][y] && api_board[x + 1][y] === api_board[x + 2][y] && api_board[x + 2][y] === api_board[x + 3][y] && api_board[x][y] != null) {
-                winningColour()
+                return winningColour()
             }
         }
     }
@@ -67,7 +78,7 @@ async function checkWinner() {
         for (y = 0; y < 4; y++) {
             // horizontal wins
             if (api_board[x][y] === api_board[x][y + 1] && api_board[x][y + 1] === api_board[x][y + 2] && api_board[x][y + 2] === api_board[x][y + 3] && api_board[x][y] != null) {
-                winningColour()
+                return winningColour()
             }
         }
     }
@@ -75,7 +86,7 @@ async function checkWinner() {
         for (y = 0; y < 4; y++) {
             // diagonal
             if (api_board[x][y] === api_board[x + 1][y + 1] && api_board[x + 2][y + 2] === api_board[x + 1][y + 1] && api_board[x + 2][y + 2] === api_board[x + 3][y + 3] && api_board[x][y] != null) {
-                winningColour()
+                return winningColour()
             }
         }
     }
@@ -83,13 +94,16 @@ async function checkWinner() {
     for (x = 3; x < 6; x++) {
         for (y = 0; y < 4; y++) {
             if (api_board[x][y] === api_board[x - 1][y + 1] && api_board[x - 2][y + 2] === api_board[x][y] && api_board[x - 2][y + 2] === api_board[x - 3][y + 3] && api_board[x][y] != null) {
-                winningColour()
+                return winningColour()
             }
         }
     }
     if (turn > 43) {
         console.log("Nobody won!")
         return "nobody"
+    }
+    else {
+        return "not yet"
     }
 }
 
@@ -111,6 +125,7 @@ function winningColour() {
         document.getElementById("4").disabled = true;
         document.getElementById("5").disabled = true;
         document.getElementById("6").disabled = true;
+        return "red"
     }
     else {
         console.log("Yellow won!")
@@ -127,6 +142,7 @@ function winningColour() {
         document.getElementById("4").disabled = true;
         document.getElementById("5").disabled = true;
         document.getElementById("6").disabled = true;
+        return "yellow"
     }
 }
 
@@ -154,23 +170,23 @@ async function getBoard() {
     const response = await fetch('http://localhost:3000/board/', { method: 'GET' })
     let api_board = await response.json();
     console.log("board is");
-    // console.log(api_board)
+    console.log(api_board)
     return api_board
 }
 
 position_empty = ""
 
-async function checkifpositionempty(y) {
+async function checkifpositionempty(b_column) {
     var api_board = await getBoard()
     console.log(api_board)
-    if (api_board[0][y] !== null) {
+    if (api_board[0][b_column] !== null) {
         console.log("column is full")
-        document.getElementById(y).disabled = true;
+        document.getElementById(b_column).disabled = true
     }
     for (x = 5; x > -1; x--) {
-        if (api_board[x][y] === null) {
-            console.log(x + "," + y + " is empty")
-            console.log(api_board[x][y])
+        if (api_board[x][b_column] === null) {
+            console.log(x + "," + b_column + " is empty")
+            console.log(api_board[x][b_column])
             position_empty = "yes"
             first_empty = x
             console.log(first_empty)
@@ -179,16 +195,3 @@ async function checkifpositionempty(y) {
     }
 }
 
-if (typeof exports === 'object') {
-    console.log("Running in Node")
-    // Node. Does not work with strict CommonJS, but only CommonJS-like 
-    // environments that support module.exports, like Node.
-    module.exports = {
-        takeTurn,
-        checkWinner,
-        resetGame,
-        getBoard,
-    }
-} else {
-    console.log("Running in Browser")
-}

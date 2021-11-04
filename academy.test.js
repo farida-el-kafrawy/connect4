@@ -56,13 +56,15 @@ const scenarios = [ { board: [
       null
     ]
   ], 
+  turn: 17,
   expected: "yellow" } ]
 scenarios.forEach(({board, expected}) => {
     describe('When calling the checkWinner function', () => {
         it('should do what you expect', () => {
             let result;
             beforeEach(() => {
-            result = academy.checkWinner(board) // ACT!
+            turn = 17
+            result = academy.checkWinner(api_board) // ACT!
             })
             it(`should return ${expected}`, () => {
             expect(result).toEqual(expected) // ASSERT!
