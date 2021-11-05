@@ -80,7 +80,7 @@ body h1{
   }
   
 .btn-group button:hover {
-    background: salmon;
+    background-color: salmon;
 }
 .btn-group button:disabled{
     background-color:grey;

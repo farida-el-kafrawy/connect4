@@ -21,6 +21,7 @@ async function runGame(event) {
     }
 }
 
+
 async function takeTurn(turn, first_empty, b_column) {
     if (turn % 2 === 0) {
         const fill_with_yellow = new Request('http://localhost:3000/board/yellow/' + first_empty + "/" + b_column, { method: 'POST' });
